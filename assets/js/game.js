@@ -1,22 +1,34 @@
+var fightOrSkip = function(){
+    // Asks users what they would like to do.
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? ENTER 'FIGHT' or 'SKIP' to choose.");
+    promptFight = promptFight.toLowerCase();
+    // conditional null recursive call
+    if(promptFight === "" || promptFight === null ){
+        window.alert("Please enter a valid input");
+        return fightOrSkip();
+    }
 
+    if (promptFight === "skip"){
+        // confirm user wants to skip
+        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+
+        // if yes (true), leave fight
+        if (confirmSkip) {
+            window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+            // subtract money from player for skipping
+            playerInfo.money = Math.max(0, playerInfo.money - 10);
+
+            return true;
+        }
+    }
+
+    return false;
+}
 var fight = function(enemy) {
     while(enemy.health > 0 && playerInfo.health > 0){
-    // window.alert("Welcome to Robot Gladiators!");
 
-        var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? ENTER 'FIGHT' or 'SKIP' to choose.");
-
-        if (promptFight === "skip" || promptFight === "SKIP"){
-            // confirm user wants to skip
-            var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-
-            // if yes (true), leave fight
-            if (confirmSkip) {
-                window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
-                // subtract money from player for skipping
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerInfo.money", playerInfo.money);
-                break;
-            }
+        if (fightOrSkip()){
+            break;
         }
 
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
@@ -136,6 +148,7 @@ var getPlayerName = function(){
     console.log("Your robot's name is " + name);
     return name;
 };
+
 
 var playerInfo = {
     name: getPlayerName(),
